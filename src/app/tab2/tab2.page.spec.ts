@@ -21,7 +21,7 @@ describe('Tab2Page', () => {
     clear.mockResolvedValue(undefined);
     show.mockResolvedValue(undefined);
     TestBed.configureTestingModule({ providers: [
-      { provide: CounterService, useValue: { counters, initialized: signal(true), initialize, remove, clear } },
+      { provide: CounterService, useValue: { counters, initialized: signal(true), loadError: signal(null), initialize, remove, clear } },
       { provide: FeedbackService, useValue: { show } },
     ] });
     page = TestBed.runInInjectionContext(() => new Tab2Page());

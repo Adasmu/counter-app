@@ -33,17 +33,23 @@ export class CounterComponent {
   count = 0;
 
   increment(): void {
-    this.count++;
+    if (!this.saving() && this.count < Number.MAX_SAFE_INTEGER) this.count++;
   }
 
   decrement(): void {
-    if (this.count > 0) {
+    if (!this.saving() && this.count > 0) {
       this.count--;
     }
   }
 
   reset(): void {
+    if (this.saving()) return;
     this.count = 0;
+  }
+
+  restore(counter: SavedCounter): void {
+    this.counterName = counter.name;
+    this.count = counter.value;
   }
 
   save(): void {

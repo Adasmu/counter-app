@@ -68,4 +68,25 @@ describe('CounterComponent', () => {
     expect(component.counterName).toBe('');
     expect(component.count).toBe(0);
   });
+  it('includes an ISO timestamp in emitted records', () => {
+    const emitted: SavedCounter[] = [];
+    component.saved.subscribe((counter) => emitted.push(counter));
+    component.counterName = 'Test';
+    component.save();
+    expect(Number.isFinite(Date.parse(emitted[0].createdAt))).toBe(true);
+  });
+  it('restores entered data after a failed persistence operation', () => {
+    component.restore({ id: 'r', name: 'Restore', value: 4, createdAt: '2026-10-12T08:00:00Z' });
+    expect(component.counterName).toBe('Restore');
+    expect(component.count).toBe(4);
+  });
+  it('does not emit a second save while saving is in progress', () => {
+    const emitted: SavedCounter[] = [];
+    component.saved.subscribe((counter) => emitted.push(counter));
+    fixture.componentRef.setInput('saving', true);
+    component.counterName = 'Test';
+    component.save();
+    expect(emitted).toEqual([]);
+  });
+
 });

@@ -10,6 +10,11 @@
         <p>Načítám historii…</p>
       </div>
     } @else {
+      @if (counterService.loadError()) {
+        <p class="error-message" role="alert">{{ counterService.loadError() }}
+          Tlačítkem Vymazat vše lze uloženou historii odstranit.
+        </p>
+      }
       <ion-card class="summary-card">
         <ion-card-content>
           <div class="summary-grid">

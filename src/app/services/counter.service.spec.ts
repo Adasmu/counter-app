@@ -63,4 +63,42 @@ describe('CounterService', () => {
     expect(service.initialized()).toBe(true);
     expect(spy).toHaveBeenCalledWith('Historii počítadel se nepodařilo načíst.', expect.any(Error));
   });
+  it('rejects invalid record shapes without crashing initialization', async () => {
+    getMock.mockResolvedValue({ value: JSON.stringify([{ id: 'x', name: 'Test', value: 'wrong' }]) });
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    await service.initialize();
+    expect(service.counters()).toEqual([]);
+    expect(service.loadError()).not.toBeNull();
+    expect(service.initialized()).toBe(true);
+  });
+  it('preserves in-memory state if saving fails and allows retrying', async () => {
+    setMock.mockRejectedValueOnce(new Error('Disk full'));
+    await expect(service.add(first)).rejects.toThrow('Disk full');
+    expect(service.counters()).toEqual([]);
+    await service.add(first);
+    expect(service.counters()).toEqual([first]);
+  });
+  it('preserves existing history if clear fails', async () => {
+    getMock.mockResolvedValue({ value: JSON.stringify([first]) });
+    removeMock.mockRejectedValueOnce(new Error('Blocked storage'));
+    await expect(service.clear()).rejects.toThrow('Blocked storage');
+    expect(service.counters()).toEqual([first]);
+  });
+  it('serializes concurrent additions without losing a record', async () => {
+    await Promise.all([service.add(first), service.add(second)]);
+    expect(service.counters()).toEqual([second, first]);
+    expect(setMock).toHaveBeenNthCalledWith(1, { key: 'saved-counters', value: JSON.stringify([first]) });
+    expect(setMock).toHaveBeenNthCalledWith(2, { key: 'saved-counters', value: JSON.stringify([second, first]) });
+  });
+  it('keeps write order when add and clear are requested together', async () => {
+    await Promise.all([service.add(first), service.clear()]);
+    expect(service.counters()).toEqual([]);
+    expect(removeMock).toHaveBeenCalledOnce();
+  });
+  it('rejects duplicate IDs rather than breaking Angular tracking', async () => {
+    await service.add(first);
+    await expect(service.add(first)).rejects.toThrow();
+    expect(service.counters()).toEqual([first]);
+  });
+
 });

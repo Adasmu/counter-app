@@ -21,4 +21,18 @@ describe('Tab1Page', () => {
     expect(add).toHaveBeenCalledWith(counter);
     expect(show).toHaveBeenCalledWith('Počítadlo bylo uloženo.');
   });
+  it('does not report a successful save when persistence fails', async () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    try {
+      add.mockRejectedValueOnce(new Error('Blocked storage'));
+      const page = TestBed.runInInjectionContext(() => new Tab1Page());
+      await page.onSaved({ id: 'x', name: 'Test', value: 1, createdAt: '2026-10-12T08:00:00Z' });
+      expect(show).not.toHaveBeenCalledWith('Počítadlo bylo uloženo.');
+      expect(show).toHaveBeenCalledWith('Počítadlo se nepodařilo uložit.', 'danger');
+      expect(page.saving()).toBe(false);
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
 });

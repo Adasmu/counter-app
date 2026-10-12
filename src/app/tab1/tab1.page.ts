@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { CounterComponent } from '../components/counter/counter.component';
 import { SavedCounter } from '../models/saved-counter';
@@ -15,6 +15,7 @@ export class Tab1Page {
   private readonly counterService = inject(CounterService);
   private readonly feedback = inject(FeedbackService);
   readonly saving = signal(false);
+  private readonly counterComponent = viewChild(CounterComponent);
 
   async onSaved(counter: SavedCounter): Promise<void> {
     if (this.saving()) return;
@@ -24,6 +25,7 @@ export class Tab1Page {
       await this.feedback.show('Počítadlo bylo uloženo.');
     } catch (error) {
       console.error('Uložení se nezdařilo.', error);
+      this.counterComponent()?.restore(counter);
       await this.feedback.show('Počítadlo se nepodařilo uložit.', 'danger');
     } finally {
       this.saving.set(false);
