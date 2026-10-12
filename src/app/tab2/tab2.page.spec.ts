@@ -38,8 +38,10 @@ describe('Tab2Page', () => {
     page.search.set('Auta');
     expect(page.visibleCounters()).toHaveLength(1);
     expect(page.total()).toBe(10);
+    expect(page.statistics().average).toBe(5);
     counters.set([]);
     expect(page.total()).toBe(0);
+    expect(page.statistics().average).toBeNull();
   });
   it('opens a real alert without immediately clearing the data', () => {
     page.requestClear();

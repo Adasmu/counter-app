@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import {
   IonAlert, IonButton, IonCard, IonCardContent, IonContent, IonHeader,
   IonItem, IonLabel, IonList, IonNote, IonSearchbar, IonSelect,
-  IonSelectOption, IonSpinner, IonTitle, IonToolbar,
+  IonSelectOption, IonSegment, IonSegmentButton, IonSpinner, IonTitle, IonToolbar,
 } from '@ionic/angular';
-import { SORT_ORDERS, SortOrder } from '../models/history-options';
+import { SORT_ORDERS, SignFilter, SortOrder } from '../models/history-options';
 import { CounterService } from '../services/counter.service';
 import { FeedbackService } from '../services/feedback.service';
-import { selectCounters } from '../utils/history';
+import { studentConfig } from '../config/student';
+import { selectCounters, summarizeCounters } from '../utils/history';
 
 @Component({
   selector: 'app-tab2',
@@ -18,12 +19,14 @@ import { selectCounters } from '../utils/history';
   imports: [
     DatePipe, DecimalPipe, FormsModule, IonAlert, IonButton, IonCard, IonCardContent,
     IonContent, IonHeader, IonItem, IonLabel, IonList, IonNote, IonSearchbar,
-    IonSelect, IonSelectOption, IonSpinner, IonTitle, IonToolbar,
+    IonSelect, IonSelectOption, IonSegment, IonSegmentButton, IonSpinner, IonTitle, IonToolbar,
   ],
 })
 export class Tab2Page implements OnInit {
   readonly counterService = inject(CounterService);
   private readonly feedback = inject(FeedbackService);
+  readonly student = studentConfig;
+  readonly signFilter = signal<SignFilter>('all');
   readonly search = signal('');
   readonly sortOrder = signal<SortOrder>('newest');
   readonly busy = signal(false);
@@ -33,9 +36,11 @@ export class Tab2Page implements OnInit {
     { text: 'Vymazat vše', role: 'confirm' },
   ];
   // The total always includes ALL saved counters, even when a search is active.
+  readonly statistics = computed(() => summarizeCounters(this.counterService.counters()));
   readonly total = computed(() => this.counterService.counters().reduce((sum, item) => sum + item.value, 0));
   readonly visibleCounters = computed(() => selectCounters(
     this.counterService.counters(), this.search(), this.sortOrder(),
+    this.student.variant === 'D' ? this.signFilter() : 'all',
   ));
 
   async ngOnInit(): Promise<void> {
@@ -45,6 +50,12 @@ export class Tab2Page implements OnInit {
   setSortOrder(value: unknown): void {
     if (typeof value === 'string' && SORT_ORDERS.includes(value as SortOrder)) {
       this.sortOrder.set(value as SortOrder);
+    }
+  }
+
+  setSignFilter(value: unknown): void {
+    if (value === 'all' || value === 'positive' || value === 'negative') {
+      this.signFilter.set(value);
     }
   }
 

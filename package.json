@@ -15,7 +15,11 @@
     "lint": "ng lint",
     "format": "prettier --write \"src/**/*.{ts,html,scss}\" \"*.{json,mjs,ts,md}\" \"scripts/**/*.mjs\" --no-error-on-unmatched-pattern",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss}\" \"*.{json,mjs,ts,md}\" \"scripts/**/*.mjs\" --no-error-on-unmatched-pattern",
-    "check": "npm run lint && npm run format:check && npm run build"
+    "check": "npm run lint && npm run format:check && npm run build",
+    "student": "node scripts/set-student.mjs",
+    "check:student": "node scripts/check-ready.mjs",
+    "test:setup": "node --test scripts/assignment.test.mjs",
+    "ready": "npm run check:student && npm run test:setup && npm run lint && npm test -- --watch=false && ionic build"
   },
   "dependencies": {
     "@angular/common": "~22.0.1",

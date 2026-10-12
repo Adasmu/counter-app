@@ -20,6 +20,44 @@
         </ion-card-content>
       </ion-card>
 
+
+      <ion-card class="variant-card">
+        <ion-card-content>
+          @switch (student.variant) {
+            @case ('A') {
+              <h2>Varianta A · Průměr hodnot</h2>
+              <p class="variant-value">{{ statistics().average === null ? '—' : (statistics().average | number: '1.0-2') }}</p>
+              <p>Průměr ze všech uložených počítadel.</p>
+            }
+            @case ('B') {
+              <h2>Varianta B · Minimum a maximum</h2>
+              <p>Minimum: <strong>{{ statistics().min ?? '—' }}</strong></p>
+              <p>Maximum: <strong>{{ statistics().max ?? '—' }}</strong></p>
+            }
+            @case ('C') {
+              <h2>Varianta C · Rozdělení hodnot</h2>
+              <p>Kladné: <strong>{{ statistics().positive }}</strong></p>
+              <p>Záporné: <strong>{{ statistics().negative }}</strong></p>
+              <p>Nulové: <strong>{{ statistics().zero }}</strong></p>
+            }
+            @case ('D') {
+              <h2>Varianta D · Filtr podle znaménka</h2>
+              <ion-segment [value]="signFilter()" (ionChange)="setSignFilter($event.detail.value)"
+                aria-label="Filtrovat historii podle znaménka">
+                <ion-segment-button value="all"><ion-label>Všechny</ion-label></ion-segment-button>
+                <ion-segment-button value="positive"><ion-label>Kladné</ion-label></ion-segment-button>
+                <ion-segment-button value="negative"><ion-label>Záporné</ion-label></ion-segment-button>
+              </ion-segment>
+              <p>Nulové hodnoty jsou zahrnuté pouze ve volbě Všechny.</p>
+            }
+            @default {
+              <h2>Individuální varianta ještě není nastavená</h2>
+              <p>Před odevzdáním spusť v terminálu <code>npm run student</code> a zadej univerzitní e-mail.</p>
+            }
+          }
+        </ion-card-content>
+      </ion-card>
+
       <ion-searchbar
         placeholder="Hledat podle názvu"
         aria-label="Vyhledávání podle názvu"
