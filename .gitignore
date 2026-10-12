@@ -1,0 +1,12 @@
+node_modules/
+www/
+dist/
+out-tsc/
+.angular/
+coverage/
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+!.env.example
