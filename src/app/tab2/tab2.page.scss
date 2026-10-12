@@ -1,23 +1,14 @@
-.history-header,
-ion-list,
-.state-message {
-  max-width: 40rem;
-  margin: 1rem auto;
-}
-
-.history-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.state-message {
-  color: var(--ion-color-medium);
-  text-align: center;
-}
-
-ion-note {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
+.history-container { max-width: 46rem; margin: 0 auto; }
+.summary-card { margin: 0 0 1rem; }
+.summary-grid { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; }
+.summary-grid span { display: block; color: var(--ion-color-medium-shade); }
+.summary-grid strong { display: block; margin-top: 0.3rem; font-size: 1.8rem; color: var(--ion-color-primary); }
+.helper { margin-top: 1rem; font-size: 0.85rem; }
+.history-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; margin: 1rem 0; }
+.state-message { margin: 2rem auto; color: var(--ion-color-medium-shade); text-align: center; line-height: 1.7; }
+.saved-value { font-size: 1.3rem; font-weight: 700; min-width: 2rem; text-align: right; }
+.sort-control { border-radius: 12px; margin-top: 0.5rem; }
+ion-searchbar { padding-inline: 0; }
+ion-list { border-radius: 12px; }
+ion-label h2 { font-weight: 600; overflow-wrap: anywhere; }
+ion-label p { font-size: 0.8rem; }

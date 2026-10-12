@@ -26,6 +26,7 @@ import { SavedCounter } from '../../models/saved-counter';
 })
 export class CounterComponent {
   readonly heading = input('Nové počítadlo');
+  readonly saving = input(false);
   readonly saved = output<SavedCounter>();
 
   counterName = '';
@@ -48,7 +49,7 @@ export class CounterComponent {
   save(): void {
     const name = this.counterName.trim();
 
-    if (!name) {
+    if (!name || this.saving()) {
       return;
     }
 

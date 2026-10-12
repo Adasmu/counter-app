@@ -10,6 +10,7 @@
       fill="outline"
       placeholder="Například návštěvníci"
       [(ngModel)]="counterName"
+      [disabled]="saving()"
     ></ion-input>
 
     <p class="counter-value">{{ count }}</p>
@@ -17,20 +18,20 @@
     <div class="counter-actions">
       <ion-button
         color="danger"
-        [disabled]="count === 0"
+        [disabled]="count === 0 || saving()"
         (click)="decrement()"
       >
         −1
       </ion-button>
 
-      <ion-button color="primary" (click)="increment()">
+      <ion-button color="primary" [disabled]="saving()" (click)="increment()">
         +1
       </ion-button>
 
       <ion-button
         color="medium"
         fill="outline"
-        [disabled]="count === 0"
+        [disabled]="count === 0 || saving()"
         (click)="reset()"
       >
         Reset
@@ -41,10 +42,10 @@
       class="save-button"
       expand="block"
       color="success"
-      [disabled]="!counterName.trim()"
+      [disabled]="!counterName.trim() || saving()"
       (click)="save()"
     >
-      Uložit počítadlo
+      {{ saving() ? 'Ukládám…' : 'Uložit počítadlo' }}
     </ion-button>
   </ion-card-content>
 </ion-card>

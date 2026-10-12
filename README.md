@@ -20,3 +20,5 @@ lint ani produkční build zatím nejsou ověřeny. První úspěšné `npm inst
 vytvoří `package-lock.json`; tento soubor je nutné commitnout.
 
 Aktuální etapa: CV04, sdílená služba, Preferences a testy služby.
+
+Povinná rozšíření: součet, řazení, hledání, potvrzovací ion-alert a ion-toast.
