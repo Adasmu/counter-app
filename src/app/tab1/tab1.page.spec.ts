@@ -1,37 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SavedCounter } from '../models/saved-counter';
+import { CounterService } from '../services/counter.service';
 import { Tab1Page } from './tab1.page';
 
 describe('Tab1Page', () => {
-  let component: Tab1Page;
-  let fixture: ComponentFixture<Tab1Page>;
-
+  const add = vi.fn();
   beforeEach(() => {
-    fixture = TestBed.createComponent(Tab1Page);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    vi.resetAllMocks();
+    add.mockResolvedValue(undefined);
+    TestBed.configureTestingModule({ providers: [{ provide: CounterService, useValue: { add } }] });
   });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should add the newest saved counter to the beginning', () => {
-    const first: SavedCounter = {
-      id: 'first',
-      name: 'První',
-      value: 1,
-    };
-    const second: SavedCounter = {
-      id: 'second',
-      name: 'Druhé',
-      value: 2,
-    };
-
-    component.onSaved(first);
-    component.onSaved(second);
-
-    expect(component.savedCounters).toEqual([second, first]);
+  it('forwards a completed counter to the shared service', async () => {
+    const page = TestBed.runInInjectionContext(() => new Tab1Page());
+    const counter: SavedCounter = { id: 'one', name: 'Test', value: 3, createdAt: '2026-10-12T08:00:00.000Z' };
+    await page.onSaved(counter);
+    expect(add).toHaveBeenCalledWith(counter);
   });
 });
