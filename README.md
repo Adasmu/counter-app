@@ -19,4 +19,4 @@ Balíčky v tomto prostředí nelze stáhnout z npm. Instalace, Angular/Vitest t
 lint ani produkční build zatím nejsou ověřeny. První úspěšné `npm install`
 vytvoří `package-lock.json`; tento soubor je nutné commitnout.
 
-Aktuální etapa: CV02, tři záložky a základní počítadlo.
+Aktuální etapa: CV03, komponenta s input/output a dočasnou historií.
