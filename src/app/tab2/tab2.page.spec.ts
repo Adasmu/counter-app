@@ -20,10 +20,22 @@ describe('Tab2Page', () => {
     remove.mockResolvedValue(undefined);
     clear.mockResolvedValue(undefined);
     show.mockResolvedValue(undefined);
-    TestBed.configureTestingModule({ providers: [
-      { provide: CounterService, useValue: { counters, initialized: signal(true), loadError: signal(null), initialize, remove, clear } },
-      { provide: FeedbackService, useValue: { show } },
-    ] });
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: CounterService,
+          useValue: {
+            counters,
+            initialized: signal(true),
+            loadError: signal(null),
+            initialize,
+            remove,
+            clear,
+          },
+        },
+        { provide: FeedbackService, useValue: { show } },
+      ],
+    });
     page = TestBed.runInInjectionContext(() => new Tab2Page());
   });
   it('loads the shared service when the history page opens', async () => {

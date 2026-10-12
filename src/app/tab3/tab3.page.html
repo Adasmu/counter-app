@@ -1,4 +1,6 @@
-<ion-header><ion-toolbar><ion-title>O aplikaci</ion-title></ion-toolbar></ion-header>
+<ion-header
+  ><ion-toolbar><ion-title>O aplikaci</ion-title></ion-toolbar></ion-header
+>
 <ion-content class="ion-padding">
   <ion-card>
     <ion-card-content>
@@ -9,12 +11,14 @@
       <h2>Individuální funkce</h2>
       <p>Varianta: <strong>{{ student.variant || 'není nastavena' }}</strong></p>
       @if (student.emailSha256) {
-        <p>SHA-256 univerzitního e-mailu:</p>
-        <code>{{ student.emailSha256 }}</code>
+      <p>SHA-256 univerzitního e-mailu:</p>
+      <code>{{ student.emailSha256 }}</code>
       }
       <h2>Jak aplikace funguje</h2>
-      <p>Počítadlo vytvoří záznam. Sdílená služba ho uloží přes Capacitor Preferences.
-        Historie umožňuje hledání, řazení a mazání.</p>
+      <p>
+        Počítadlo vytvoří záznam. Sdílená služba ho uloží přes Capacitor Preferences. Historie
+        umožňuje hledání, řazení a mazání.
+      </p>
       <p>Data jsou lokální pro tento prohlížeč a tuto adresu. Neposílají se na server.</p>
     </ion-card-content>
   </ion-card>

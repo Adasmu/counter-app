@@ -33,7 +33,6 @@ describe('history selection', () => {
   });
 });
 
-
 describe('individual variants', () => {
   const data: SavedCounter[] = [
     { id: 'p', name: 'Plus', value: 8, createdAt: '2026-10-12T08:00:00Z' },
@@ -59,6 +58,15 @@ describe('individual variants', () => {
     expect(selectCounters(data, 'plus', 'value-asc', 'negative')).toEqual([]);
   });
   it('does not return Infinity, NaN or misleading averages for empty history', () => {
-    expect(summarizeCounters([])).toEqual({ count: 0, total: 0, average: null, min: null, max: null, positive: 0, negative: 0, zero: 0 });
+    expect(summarizeCounters([])).toEqual({
+      count: 0,
+      total: 0,
+      average: null,
+      min: null,
+      max: null,
+      positive: 0,
+      negative: 0,
+      zero: 0,
+    });
   });
 });

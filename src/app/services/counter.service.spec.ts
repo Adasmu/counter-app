@@ -4,15 +4,27 @@ import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 import { SavedCounter } from '../models/saved-counter';
 import { CounterService } from './counter.service';
 
-vi.mock('@capacitor/preferences', () => ({ Preferences: { get: vi.fn(), set: vi.fn(), remove: vi.fn() } }));
+vi.mock('@capacitor/preferences', () => ({
+  Preferences: { get: vi.fn(), set: vi.fn(), remove: vi.fn() },
+}));
 
 describe('CounterService', () => {
   let service: CounterService;
   const getMock = vi.mocked(Preferences.get);
   const setMock = vi.mocked(Preferences.set);
   const removeMock = vi.mocked(Preferences.remove);
-  const first: SavedCounter = { id: 'first', name: 'První', value: 1, createdAt: '2026-09-17T08:00:00.000Z' };
-  const second: SavedCounter = { id: 'second', name: 'Druhé', value: 2, createdAt: '2026-09-17T09:00:00.000Z' };
+  const first: SavedCounter = {
+    id: 'first',
+    name: 'První',
+    value: 1,
+    createdAt: '2026-09-17T08:00:00.000Z',
+  };
+  const second: SavedCounter = {
+    id: 'second',
+    name: 'Druhé',
+    value: 2,
+    createdAt: '2026-09-17T09:00:00.000Z',
+  };
 
   beforeEach(() => {
     vi.resetAllMocks();
@@ -41,13 +53,19 @@ describe('CounterService', () => {
     await service.add(first);
     await service.add(second);
     expect(service.counters()).toEqual([second, first]);
-    expect(setMock).toHaveBeenLastCalledWith({ key: 'saved-counters', value: JSON.stringify([second, first]) });
+    expect(setMock).toHaveBeenLastCalledWith({
+      key: 'saved-counters',
+      value: JSON.stringify([second, first]),
+    });
   });
   it('removes only the selected counter and persists the result', async () => {
     getMock.mockResolvedValue({ value: JSON.stringify([second, first]) });
     await service.remove('first');
     expect(service.counters()).toEqual([second]);
-    expect(setMock).toHaveBeenCalledWith({ key: 'saved-counters', value: JSON.stringify([second]) });
+    expect(setMock).toHaveBeenCalledWith({
+      key: 'saved-counters',
+      value: JSON.stringify([second]),
+    });
   });
   it('clears history using remove for its own key only', async () => {
     getMock.mockResolvedValue({ value: JSON.stringify([first]) });
@@ -55,16 +73,24 @@ describe('CounterService', () => {
     expect(service.counters()).toEqual([]);
     expect(removeMock).toHaveBeenCalledExactlyOnceWith({ key: 'saved-counters' });
   });
-  it.each(['not JSON', JSON.stringify({ name: 'test' })])('recovers from malformed stored data: %s', async (value) => {
-    getMock.mockResolvedValue({ value });
-    const spy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
-    await service.initialize();
-    expect(service.counters()).toEqual([]);
-    expect(service.initialized()).toBe(true);
-    expect(spy).toHaveBeenCalledWith('Historii počítadel se nepodařilo načíst.', expect.any(Error));
-  });
+  it.each(['not JSON', JSON.stringify({ name: 'test' })])(
+    'recovers from malformed stored data: %s',
+    async (value) => {
+      getMock.mockResolvedValue({ value });
+      const spy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      await service.initialize();
+      expect(service.counters()).toEqual([]);
+      expect(service.initialized()).toBe(true);
+      expect(spy).toHaveBeenCalledWith(
+        'Historii počítadel se nepodařilo načíst.',
+        expect.any(Error),
+      );
+    },
+  );
   it('rejects invalid record shapes without crashing initialization', async () => {
-    getMock.mockResolvedValue({ value: JSON.stringify([{ id: 'x', name: 'Test', value: 'wrong' }]) });
+    getMock.mockResolvedValue({
+      value: JSON.stringify([{ id: 'x', name: 'Test', value: 'wrong' }]),
+    });
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     await service.initialize();
     expect(service.counters()).toEqual([]);
@@ -87,8 +113,14 @@ describe('CounterService', () => {
   it('serializes concurrent additions without losing a record', async () => {
     await Promise.all([service.add(first), service.add(second)]);
     expect(service.counters()).toEqual([second, first]);
-    expect(setMock).toHaveBeenNthCalledWith(1, { key: 'saved-counters', value: JSON.stringify([first]) });
-    expect(setMock).toHaveBeenNthCalledWith(2, { key: 'saved-counters', value: JSON.stringify([second, first]) });
+    expect(setMock).toHaveBeenNthCalledWith(1, {
+      key: 'saved-counters',
+      value: JSON.stringify([first]),
+    });
+    expect(setMock).toHaveBeenNthCalledWith(2, {
+      key: 'saved-counters',
+      value: JSON.stringify([second, first]),
+    });
   });
   it('keeps write order when add and clear are requested together', async () => {
     await Promise.all([service.add(first), service.clear()]);
@@ -100,5 +132,4 @@ describe('CounterService', () => {
     await expect(service.add(first)).rejects.toThrow();
     expect(service.counters()).toEqual([first]);
   });
-
 });

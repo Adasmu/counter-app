@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import { IonCard, IonCardContent, IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
+import {
+  IonCard,
+  IonCardContent,
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
 import { studentConfig } from '../config/student';
 
 @Component({

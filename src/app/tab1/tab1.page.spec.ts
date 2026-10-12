@@ -12,11 +12,21 @@ describe('Tab1Page', () => {
     vi.resetAllMocks();
     add.mockResolvedValue(undefined);
     show.mockResolvedValue(undefined);
-    TestBed.configureTestingModule({ providers: [{ provide: CounterService, useValue: { add } }, { provide: FeedbackService, useValue: { show } }] });
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: CounterService, useValue: { add } },
+        { provide: FeedbackService, useValue: { show } },
+      ],
+    });
   });
   it('forwards a completed counter to the shared service', async () => {
     const page = TestBed.runInInjectionContext(() => new Tab1Page());
-    const counter: SavedCounter = { id: 'one', name: 'Test', value: 3, createdAt: '2026-10-12T08:00:00.000Z' };
+    const counter: SavedCounter = {
+      id: 'one',
+      name: 'Test',
+      value: 3,
+      createdAt: '2026-10-12T08:00:00.000Z',
+    };
     await page.onSaved(counter);
     expect(add).toHaveBeenCalledWith(counter);
     expect(show).toHaveBeenCalledWith('Počítadlo bylo uloženo.');
@@ -34,5 +44,4 @@ describe('Tab1Page', () => {
       spy.mockRestore();
     }
   });
-
 });

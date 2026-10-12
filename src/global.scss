@@ -9,7 +9,15 @@
 @import '@ionic/angular/css/flex-utils.css';
 @import './theme/variables.scss';
 
-body { margin: 0; }
-ion-content { --background: #f5f7fb; }
-ion-toolbar { --background: #ffffff; }
-ion-card { border-radius: 16px; }
+body {
+  margin: 0;
+}
+ion-content {
+  --background: #f5f7fb;
+}
+ion-toolbar {
+  --background: #ffffff;
+}
+ion-card {
+  border-radius: 16px;
+}

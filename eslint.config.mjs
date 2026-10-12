@@ -6,11 +6,21 @@ export default tseslint.config(
   { ignores: ['www/**', 'dist/**', 'coverage/**', '.angular/**', 'node_modules/**'] },
   {
     files: ['**/*.ts'],
-    extends: [eslint.configs.recommended, ...tseslint.configs.recommended, ...angular.configs.tsRecommended],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...angular.configs.tsRecommended,
+    ],
     processor: angular.processInlineTemplates,
     rules: {
-      '@angular-eslint/component-selector': ['error', { type: 'element', prefix: 'app', style: 'kebab-case' }],
-      '@angular-eslint/directive-selector': ['error', { type: 'attribute', prefix: 'app', style: 'camelCase' }],
+      '@angular-eslint/component-selector': [
+        'error',
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+      ],
+      '@angular-eslint/directive-selector': [
+        'error',
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
     },
   },
   {

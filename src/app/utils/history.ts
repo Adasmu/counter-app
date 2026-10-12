@@ -9,26 +9,34 @@ export function selectCounters(
   sign: SignFilter = 'all',
 ): SavedCounter[] {
   const normalize = (text: string): string =>
-    text.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('cs-CZ');
+    text
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')
+      .toLocaleLowerCase('cs-CZ');
   const search = normalize(query.trim());
   const result = counters.filter((counter) => {
     const matchesName = normalize(counter.name).includes(search);
-    const matchesSign = sign === 'positive' ? counter.value > 0
-      : sign === 'negative' ? counter.value < 0 : true;
+    const matchesSign =
+      sign === 'positive' ? counter.value > 0 : sign === 'negative' ? counter.value < 0 : true;
     return matchesName && matchesSign;
   });
   return result.sort((a, b) => {
     switch (order) {
-      case 'oldest': return Date.parse(a.createdAt) - Date.parse(b.createdAt);
-      case 'name-asc': return a.name.localeCompare(b.name, 'cs-CZ', { sensitivity: 'base', numeric: true });
-      case 'name-desc': return b.name.localeCompare(a.name, 'cs-CZ', { sensitivity: 'base', numeric: true });
-      case 'value-asc': return a.value - b.value;
-      case 'value-desc': return b.value - a.value;
-      default: return Date.parse(b.createdAt) - Date.parse(a.createdAt);
+      case 'oldest':
+        return Date.parse(a.createdAt) - Date.parse(b.createdAt);
+      case 'name-asc':
+        return a.name.localeCompare(b.name, 'cs-CZ', { sensitivity: 'base', numeric: true });
+      case 'name-desc':
+        return b.name.localeCompare(a.name, 'cs-CZ', { sensitivity: 'base', numeric: true });
+      case 'value-asc':
+        return a.value - b.value;
+      case 'value-desc':
+        return b.value - a.value;
+      default:
+        return Date.parse(b.createdAt) - Date.parse(a.createdAt);
     }
   });
 }
-
 
 export interface CounterStatistics {
   count: number;
@@ -43,8 +51,14 @@ export interface CounterStatistics {
 
 export function summarizeCounters(counters: readonly SavedCounter[]): CounterStatistics {
   const result: CounterStatistics = {
-    count: counters.length, total: 0, average: null, min: null, max: null,
-    positive: 0, negative: 0, zero: 0,
+    count: counters.length,
+    total: 0,
+    average: null,
+    min: null,
+    max: null,
+    positive: 0,
+    negative: 0,
+    zero: 0,
   };
   for (const { value } of counters) {
     result.total += value;

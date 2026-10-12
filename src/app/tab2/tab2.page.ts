@@ -2,9 +2,24 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonAlert, IonButton, IonCard, IonCardContent, IonContent, IonHeader,
-  IonItem, IonLabel, IonList, IonNote, IonSearchbar, IonSelect,
-  IonSelectOption, IonSegment, IonSegmentButton, IonSpinner, IonTitle, IonToolbar,
+  IonAlert,
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonNote,
+  IonSearchbar,
+  IonSelect,
+  IonSelectOption,
+  IonSegment,
+  IonSegmentButton,
+  IonSpinner,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/angular';
 import { SORT_ORDERS, SignFilter, SortOrder } from '../models/history-options';
 import { CounterService } from '../services/counter.service';
@@ -17,9 +32,27 @@ import { selectCounters, summarizeCounters } from '../utils/history';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   imports: [
-    DatePipe, DecimalPipe, FormsModule, IonAlert, IonButton, IonCard, IonCardContent,
-    IonContent, IonHeader, IonItem, IonLabel, IonList, IonNote, IonSearchbar,
-    IonSelect, IonSelectOption, IonSegment, IonSegmentButton, IonSpinner, IonTitle, IonToolbar,
+    DatePipe,
+    DecimalPipe,
+    FormsModule,
+    IonAlert,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonContent,
+    IonHeader,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonNote,
+    IonSearchbar,
+    IonSelect,
+    IonSelectOption,
+    IonSegment,
+    IonSegmentButton,
+    IonSpinner,
+    IonTitle,
+    IonToolbar,
   ],
 })
 export class Tab2Page implements OnInit {
@@ -37,11 +70,17 @@ export class Tab2Page implements OnInit {
   ];
   // The total always includes ALL saved counters, even when a search is active.
   readonly statistics = computed(() => summarizeCounters(this.counterService.counters()));
-  readonly total = computed(() => this.counterService.counters().reduce((sum, item) => sum + item.value, 0));
-  readonly visibleCounters = computed(() => selectCounters(
-    this.counterService.counters(), this.search(), this.sortOrder(),
-    this.student.variant === 'D' ? this.signFilter() : 'all',
-  ));
+  readonly total = computed(() =>
+    this.counterService.counters().reduce((sum, item) => sum + item.value, 0),
+  );
+  readonly visibleCounters = computed(() =>
+    selectCounters(
+      this.counterService.counters(),
+      this.search(),
+      this.sortOrder(),
+      this.student.variant === 'D' ? this.signFilter() : 'all',
+    ),
+  );
 
   async ngOnInit(): Promise<void> {
     await this.counterService.initialize();

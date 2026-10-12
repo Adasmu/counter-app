@@ -39,9 +39,7 @@
                 "output": "assets"
               }
             ],
-            "styles": [
-              "src/global.scss"
-            ]
+            "styles": ["src/global.scss"]
           },
           "configurations": {
             "production": {
@@ -90,10 +88,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }

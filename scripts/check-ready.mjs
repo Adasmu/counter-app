@@ -9,7 +9,8 @@ try {
   }
   const source = await readFile(new URL('../src/app/config/student.ts', import.meta.url), 'utf8');
   const match = source.match(/export const studentConfig: StudentConfig = ([\s\S]*?);\s*$/);
-  if (!match) throw new Error('Konfigurace autora není v očekávaném formátu. Spusť npm run student.');
+  if (!match)
+    throw new Error('Konfigurace autora není v očekávaném formátu. Spusť npm run student.');
   // Prettier can convert JSON's double-quoted property names to ordinary TS keys.
   // Read the three safe generated fields without evaluating TypeScript code.
   const body = match[1];
@@ -23,13 +24,16 @@ try {
     throw new Error('Chybí package-lock.json. Nejprve dokonči npm install a lockfile commitni.');
   });
   const result = spawnSync('git', ['rev-list', '--count', 'HEAD'], {
-    cwd: fileURLToPath(new URL('..', import.meta.url)), encoding: 'utf8',
+    cwd: fileURLToPath(new URL('..', import.meta.url)),
+    encoding: 'utf8',
   });
   if (result.status !== 0 || Number(result.stdout.trim()) < 4) {
     throw new Error('Repozitář musí mít alespoň 4 smysluplné commity.');
   }
   console.log(`Autor a varianta ${variant} jsou nastaveny; hash začíná ${hash[0]}.`);
-  console.log('Teď následuje skutečný lint, testy a build. Ještě je nutná ruční kontrola aplikace.');
+  console.log(
+    'Teď následuje skutečný lint, testy a build. Ještě je nutná ruční kontrola aplikace.',
+  );
 } catch (error) {
   console.error(error instanceof Error ? error.message : error);
   process.exitCode = 1;

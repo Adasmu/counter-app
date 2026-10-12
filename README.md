@@ -33,31 +33,31 @@ Lockfile nebyl v balíčku vymyšlen ani nahrazen neúplným souborem.
 
 ## Obsah implementace
 
-| Část | Implementace |
-| --- | --- |
-| CV02 | Počítadlo, název, +1/-1, reset, tři záložky |
-| CV03 | `CounterComponent`, `input()`, `output()`, typ `SavedCounter`, testy komponenty |
-| CV04 | `CounterService`, sdílené signály, jednorázová inicializace, Preferences, čas vytvoření |
-| Historie | Načítání, prázdný stav, datum, odstranění jedné položky nebo celé historie |
-| Rozšíření 1 | Součet hodnot všech uložených záznamů |
-| Rozšíření 2 | Řazení podle času, názvu a hodnoty v obou směrech |
-| Rozšíření 3 | Vyhledávání podle názvu bez rozlišení velikosti písmen a diakritiky |
-| Rozšíření 4 | Skutečný `ion-alert`, mazání pouze po potvrzení |
-| Rozšíření 5 | `ToastController` vytvářející `ion-toast` po úspěšné operaci |
-| Individuální funkce | A/B/C/D podle hashe; v Historii se zobrazí jen nastavená varianta |
-| Odolnost | Validace uloženého JSON, serializace zápisů, obnova formuláře při chybě |
+| Část                | Implementace                                                                            |
+| ------------------- | --------------------------------------------------------------------------------------- |
+| CV02                | Počítadlo, název, +1/-1, reset, tři záložky                                             |
+| CV03                | `CounterComponent`, `input()`, `output()`, typ `SavedCounter`, testy komponenty         |
+| CV04                | `CounterService`, sdílené signály, jednorázová inicializace, Preferences, čas vytvoření |
+| Historie            | Načítání, prázdný stav, datum, odstranění jedné položky nebo celé historie              |
+| Rozšíření 1         | Součet hodnot všech uložených záznamů                                                   |
+| Rozšíření 2         | Řazení podle času, názvu a hodnoty v obou směrech                                       |
+| Rozšíření 3         | Vyhledávání podle názvu bez rozlišení velikosti písmen a diakritiky                     |
+| Rozšíření 4         | Skutečný `ion-alert`, mazání pouze po potvrzení                                         |
+| Rozšíření 5         | `ToastController` vytvářející `ion-toast` po úspěšné operaci                            |
+| Individuální funkce | A/B/C/D podle hashe; v Historii se zobrazí jen nastavená varianta                       |
+| Odolnost            | Validace uloženého JSON, serializace zápisů, obnova formuláře při chybě                 |
 
 Základní CV03 bez bonusů je zachováno v tagu `cv03` a větvi `cv3/reusable-counter`.
 Ve finální aplikaci se historie podle CV04 přesunula na druhou záložku.
 
 ## Varianta a chování statistik
 
-| První hexadecimální znak | Varianta |
-| --- | --- |
-| 0-3 | A: průměr |
-| 4-7 | B: minimum a maximum |
-| 8-b | C: počet kladných, záporných a nulových hodnot |
-| c-f | D: filtr všechny / kladné / záporné |
+| První hexadecimální znak | Varianta                                       |
+| ------------------------ | ---------------------------------------------- |
+| 0-3                      | A: průměr                                      |
+| 4-7                      | B: minimum a maximum                           |
+| 8-b                      | C: počet kladných, záporných a nulových hodnot |
+| c-f                      | D: filtr všechny / kladné / záporné            |
 
 Dokud se nespustí `npm run student`, není zvolená žádná varianta.
 Všechny varianty jsou implementovány, ale uživatelské rozhraní aktivuje jedinou podle konfigurace.

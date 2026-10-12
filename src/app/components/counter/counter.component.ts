@@ -14,15 +14,7 @@ import { SavedCounter } from '../../models/saved-counter';
   selector: 'app-counter',
   templateUrl: './counter.component.html',
   styleUrls: ['./counter.component.scss'],
-  imports: [
-    FormsModule,
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardTitle,
-    IonInput,
-  ],
+  imports: [FormsModule, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonInput],
 })
 export class CounterComponent {
   readonly heading = input('Nové počítadlo');

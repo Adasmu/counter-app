@@ -88,5 +88,4 @@ describe('CounterComponent', () => {
     component.save();
     expect(emitted).toEqual([]);
   });
-
 });
